@@ -8,57 +8,135 @@ using System.Text;
 
 using System.Threading.Tasks;
 
+using System.IO;
+
+/// <summary>
+/// TCP Listener for JSB sim. Only one instance should exist.
+/// </summary>
+/// <remarks>
+/// 
+/// </remarks>
 public class JSBReader : MonoBehaviour
 {
+    public string IPAddr = null;
+
     // Start is called before the first frame update
 
     Dictionary<string, float> data;
 
-    UdpClient client;
-    IPEndPoint ep;
-    void Start()
-    {
-        client = new UdpClient();
-        ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 1138);
+    TcpClient client;
+    TcpListener listener;
 
-        client.Client.Bind(ep);
-        StartCoroutine(ReceiveBytes());
+    StreamReader reader;
+
+    bool first = true;
+    string buffer = null;
+    async Task Start()
+    {
+        // May make this customisable.
+        IPEndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 1138);
+
+        listener = new TcpListener(ep);
+        listener.Start();
+
+        Debug.Log("JSB Listener started. Start JSB Sim to receive data.");
+        client = await listener.AcceptTcpClientAsync();
+        reader = new StreamReader(client.GetStream());
+        // StartCoroutine(ReceiveBytes());
+
+        Application.targetFrameRate = 90;
+
     }
 
 
     // Update is called once per frame
     void Update()
     {
+        ProcessJSBData();
 
+        //if(Input.GetKeyDown(KeyCode.Q))
+        //{
+        //    string[] arr = buffer.Split(',');
+
+        //    Debug.Log(buffer);
+        //    foreach(string s in arr)
+        //    {
+        //        Debug.Log(s);
+        //    }
+        //    buffer = null;
+        //}
     }
 
+    public float dx;
+    public float dy;
+    public float dz;
 
-    bool first = true;
-    IEnumerator ReceiveBytes()
+
+    void ProcessJSBData()
     {
-        while(true)
+        // Wait until JSB connects and data is flowing
+        if (client == null)
+            return;
+
+        // If something is in the buffer, wait until it's consumed.
+        if(buffer == null)
         {
-            yield return null;
-            byte[] d = new byte[1 << 12];
-            var len = client.Client.Receive(d);
-            // Debug.Log(System.Text.Encoding.UTF8.GetString(d));
-            ProcessData(System.Text.Encoding.UTF8.GetString(d));
+            buffer = reader.ReadLine();
         }
 
-    }
+        if (buffer == null)
+            return;
 
-
-    void ProcessData(string dataStr)
-    {
+        Debug.Log(buffer);
         if(first)
         {
-            var strs = dataStr.Split('\n');
-            foreach(var str in strs)
-            {
-                Debug.Log(str);
-            }
-
             first = false;
         }
+        else
+        {
+            // temp
+            // time, qbar, vtotal, ubody, vbody, wbody, uaero, vaero, waero, vn, ve, vd
+            string[] arr = buffer.Split(',');
+
+            dx = float.Parse(arr[1]);
+            //dy = float.Parse(arr[4]);
+            //dz = float.Parse(arr[5]);
+
+
+        }
+
+
+        buffer = null;
     }
+
+
+    //bool first = true;
+    //IEnumerator ReceiveBytes()
+    //{
+    //    while(true)
+    //    {
+    //        yield return null;
+    //        byte[] d = new byte[1 << 12];
+    //        var len = client.Client.Receive(d);
+    //        client.
+    //        // Debug.Log(System.Text.Encoding.UTF8.GetString(d));
+    //        ProcessData(System.Text.Encoding.UTF8.GetString(d));
+    //    }
+
+    //}
+
+
+    //void ProcessData(string dataStr)
+    //{
+    //    if(first)
+    //    {
+    //        var strs = dataStr.Split('\n');
+    //        foreach(var str in strs)
+    //        {
+    //            Debug.Log(str);
+    //        }
+
+    //        first = false;
+    //    }
+    //}
 }
