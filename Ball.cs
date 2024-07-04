@@ -18,8 +18,9 @@ public class Ball : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // rb.velocity = transform.InverseTransformDirection(new Vector3(FTM(reader.dx), FTM(reader.dy), FTM(reader.dz)));
-        transform.position = new Vector3(0.0f, FTM(reader.dx), 0.0f);
+        //rb.velocity =  new Vector3(FTM(reader.dx), FTM(reader.dy), FTM(reader.dz));
+        rb.velocity = transform.InverseTransformDirection(new Vector3(FTM(reader.dx), FTM(reader.dy), FTM(reader.dz)));
+        rb.angularVelocity = new Vector3(reader.angX, reader.angY, reader.angZ);
     }
 
     float FTM(float d)

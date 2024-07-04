@@ -33,6 +33,7 @@ public class JSBReader : MonoBehaviour
     string buffer = null;
     async Task Start()
     {
+        //Application.targetFrameRate = 90;
         // May make this customisable.
         IPEndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 1138);
 
@@ -44,7 +45,6 @@ public class JSBReader : MonoBehaviour
         reader = new StreamReader(client.GetStream());
         // StartCoroutine(ReceiveBytes());
 
-        Application.targetFrameRate = 90;
 
     }
 
@@ -70,6 +70,11 @@ public class JSBReader : MonoBehaviour
     public float dx;
     public float dy;
     public float dz;
+
+    public float angX;
+    public float angY;
+    public float angZ;
+
 
 
     void ProcessJSBData()
@@ -98,9 +103,14 @@ public class JSBReader : MonoBehaviour
             // time, qbar, vtotal, ubody, vbody, wbody, uaero, vaero, waero, vn, ve, vd
             string[] arr = buffer.Split(',');
 
-            dx = float.Parse(arr[1]);
-            //dy = float.Parse(arr[4]);
-            //dz = float.Parse(arr[5]);
+            dz = float.Parse(arr[1]);
+            dx = float.Parse(arr[2]);
+            dy = -float.Parse(arr[3]);
+
+            angZ = -float.Parse(arr[4]);    // Phi is roll, inverted (positive -> clockwise)
+            angX = -float.Parse(arr[5]);    // Inverted
+            angY = float.Parse(arr[6]);    // Psi is yaw, not inverted
+
 
 
         }
