@@ -1,3 +1,4 @@
 JSBSim/
 **/*.meta
 **/*.mat
+*.obj

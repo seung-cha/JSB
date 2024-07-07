@@ -18,9 +18,18 @@ public class Ball : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //rb.velocity =  new Vector3(FTM(reader.dx), FTM(reader.dy), FTM(reader.dz));
-        rb.velocity = transform.InverseTransformDirection(new Vector3(FTM(reader.dx), FTM(reader.dy), FTM(reader.dz)));
+        transform.Translate(new Vector3(FTM(reader.dx), FTM(reader.dy), FTM(reader.dz)) * Time.deltaTime);
         rb.angularVelocity = new Vector3(reader.angX, reader.angY, reader.angZ);
+
+        float rollAngle = reader.angZ * Mathf.Rad2Deg * Time.deltaTime;  // Convert rad/sec to deg/frame
+        float pitchAngle = reader.angX * Mathf.Rad2Deg * Time.deltaTime; // Convert rad/sec to deg/frame
+        float yawAngle = reader.angY * Mathf.Rad2Deg * Time.deltaTime;   // Convert rad/sec to deg/frame
+
+        // Apply rotations to the aircraft
+        transform.Rotate(pitchAngle, yawAngle, rollAngle);
+        //rb.angularVelocity = new Vector3(reader.angX, reader.angY, reader.angZ);
+        //rb.velocity =  new Vector3(FTM(reader.dx), FTM(reader.dy), FTM(reader.dz));
+        //rb.velocity = new Vector3(FTM(reader.dx), FTM(reader.dy), FTM(reader.dz)) ;
     }
 
     float FTM(float d)

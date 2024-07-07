@@ -1,0 +1,26 @@
+<output name="localhost" type="SOCKET" port="1138" protocol="TCP" rate="30">
+  <simulation> OFF </simulation>
+  <atmosphere> OFF </atmosphere>
+  <massprops> OFF</massprops>
+  <rates> OFF </rates>
+  <velocities> OFF </velocities>
+  <forces> OFF </forces>
+  <moments> OFF </moments>
+  <position> OFF </position>
+  <propulsion> OFF </propulsion>
+  <aerosurfaces> OFF </aerosurfaces>
+  <fcs> OFF </fcs>
+  <ground_reactions> OFF </ground_reactions>
+  <coefficients> OFF </coefficients>
+
+  <property caption="velocity_forward"> velocities/u-fps </property>
+  <property caption="velocity_right"> velocities/v-fps </property>
+  <property caption="velocity_down"> velocities/w-fps </property>
+
+  <property caption="velocity_ang_roll_z"> velocities/p-rad_sec </property>
+  <property caption="velocity_ang_pitch_x"> velocities/q-rad_sec </property>
+  <property caption="velocity_ang_yaw_y"> velocities/r-rad_sec </property>
+
+  <!-- <property caption=""> </property> -->
+  <!-- <property caption="Aileron Command (0-1)"> fcs/aileron-cmd-norm </property> -->
+</output>
