@@ -11,6 +11,7 @@ public class Ball : MonoBehaviour
 
     void Start()
     {
+        Application.targetFrameRate = 90;
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
     }
@@ -19,14 +20,15 @@ public class Ball : MonoBehaviour
     void Update()
     {
         transform.Translate(new Vector3(FTM(reader.dx), FTM(reader.dy), FTM(reader.dz)) * Time.deltaTime);
-        rb.angularVelocity = new Vector3(reader.angX, reader.angY, reader.angZ);
+        //rb.angularVelocity = new Vector3(reader.angX, reader.angY, reader.angZ);
 
         float rollAngle = reader.angZ * Mathf.Rad2Deg * Time.deltaTime;  // Convert rad/sec to deg/frame
         float pitchAngle = reader.angX * Mathf.Rad2Deg * Time.deltaTime; // Convert rad/sec to deg/frame
         float yawAngle = reader.angY * Mathf.Rad2Deg * Time.deltaTime;   // Convert rad/sec to deg/frame
 
-        // Apply rotations to the aircraft
         transform.Rotate(pitchAngle, yawAngle, rollAngle);
+
+        // Apply rotations to the aircraft
         //rb.angularVelocity = new Vector3(reader.angX, reader.angY, reader.angZ);
         //rb.velocity =  new Vector3(FTM(reader.dx), FTM(reader.dy), FTM(reader.dz));
         //rb.velocity = new Vector3(FTM(reader.dx), FTM(reader.dy), FTM(reader.dz)) ;
@@ -34,6 +36,8 @@ public class Ball : MonoBehaviour
 
     float FTM(float d)
     {
+        //return d;
+
         return d / 3.281f;
     }
 }
