@@ -1,4 +1,6 @@
-<output name="localhost" type="SOCKET" port="1138" protocol="TCP" rate="30">
+<?xml version="1.0" encoding="utf-8"?>
+
+<output name="localhost" type="SOCKET" port="1138" protocol="TCP" rate="90">
   <simulation> OFF </simulation>
   <atmosphere> OFF </atmosphere>
   <massprops> OFF</massprops>
@@ -13,14 +15,36 @@
   <ground_reactions> OFF </ground_reactions>
   <coefficients> OFF </coefficients>
 
-  <property caption="velocity_forward"> velocities/u-fps </property>
-  <property caption="velocity_right"> velocities/v-fps </property>
-  <property caption="velocity_down"> velocities/w-fps </property>
 
-  <property caption="velocity_ang_roll_z"> velocities/p-rad_sec </property>
-  <property caption="velocity_ang_pitch_x"> velocities/q-rad_sec </property>
-  <property caption="velocity_ang_yaw_y"> velocities/r-rad_sec </property>
+  <!-- Output properties. caption can be provided optionally to change column name.-->
+  <!-- Without tags properties are displayed as is (e.g velocities/u-fps -> u-fps)-->
+
+  <property> velocities/u-fps </property>
+  <property> velocities/v-fps </property>
+  <property> velocities/w-fps </property>
+
+  <property> velocities/p-rad_sec </property>
+  <property> velocities/q-rad_sec </property>
+  <property> velocities/r-rad_sec </property>
+
+  <property> propulsion/starter_cmd  </property>
+  <property> propulsion/magneto_cmd </property>
+
+  <property> fcs/throttle-cmd-norm </property>
+
+  <property> fcs/rudder-cmd-norm </property>
+
+  <property> fcs/elevator-cmd-norm </property>
+
+  <property> fcs/aileron-cmd-norm </property>
 
   <!-- <property caption=""> </property> -->
   <!-- <property caption="Aileron Command (0-1)"> fcs/aileron-cmd-norm </property> -->
 </output>
+
+
+
+
+c172x:
+<input port="1100" protocol="TCP" />
+<input port="1101" protocol="TCP" />
