@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <runscript>
   <use aircraft="c172x" initialize="reset00"/>
-  <run start="0.0" end="1.79e308" dt="0.016666">
+  <run start="0.0" end="1.79e308" dt="0.011111111111111">
   </run>
 </runscript>
