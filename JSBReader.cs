@@ -83,8 +83,6 @@ namespace JSBSim
 
         async Task Start()
         {
-            //Application.targetFrameRate = 90;
-            // May make this customisable.
 
             IPEndPoint ep;
             ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), Keys.Simulation.READ_PORT);

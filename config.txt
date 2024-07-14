@@ -48,3 +48,6 @@
 c172x:
 <input port="1100" protocol="TCP" />
 <input port="1101" protocol="TCP" />
+
+
+./JSBSim.exe scripts/custom.xml data_output/socket_tcp.xml --realtime
