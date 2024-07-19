@@ -38,6 +38,10 @@
 
   <property> fcs/aileron-cmd-norm </property>
 
+<property> position/h-agl-ft </property>
+
+  <property caption= "ic/h-agl-ft"> ic/h-agl-ft </property>
+
   <!-- <property caption=""> </property> -->
   <!-- <property caption="Aileron Command (0-1)"> fcs/aileron-cmd-norm </property> -->
 </output>

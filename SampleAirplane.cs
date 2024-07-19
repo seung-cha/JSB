@@ -17,6 +17,17 @@ public class SampleAirplane : MonoBehaviour
         rudder = 0,
         elevator = 0;
 
+    private bool first = true;
+
+    [SerializeField]
+    private float groundLevelOffsetFt;
+
+
+    [SerializeField]
+    GameObject ground;
+
+    float height;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -47,12 +58,14 @@ public class SampleAirplane : MonoBehaviour
             return;
         }
 
+
         // Temporary input bounds
         // Keys:
         //  W, S -> Throttle
         //  A, D -> Rudder
         //  E, Q -> Elevator
         //  C,Z -> Aileron
+   
 
         if(Input.GetKeyDown(KeyCode.Space))
         {
@@ -137,6 +150,34 @@ public class SampleAirplane : MonoBehaviour
         writer.Write(JSBSim.Keys.FCS.W_AILERON_CMD_NORM, aileron);
         writer.Write(JSBSim.Keys.FCS.W_ELEVATOR_CMD_NORM, elevator);
 
+        RaycastHit hit;
+
+        
+        if(Physics.Raycast(ground.transform.position, Vector2.down, out hit, Mathf.Infinity, 1 << 6))
+        {
+            height = hit.distance;
+        }
+
+        try
+        {
+
+            if (groundLevelOffsetFt < 0.3f)
+            {
+                first = false;
+                groundLevelOffsetFt = reader.GetData(JSBSim.Keys.IC.HEIGHT_ABOVE_GL_FT);
+            }
+
+        }
+        catch(System.Exception e)
+        {
+            Debug.Log(e.Message);
+            first = true;
+        }
+
+        if (height > 0.1f)
+        writer.Write(JSBSim.Keys.Position.W_HEIGHT_ABOVE_GL_FT, groundLevelOffsetFt + height / FTM);
+
+
 
     }
 
@@ -150,9 +191,17 @@ public class SampleAirplane : MonoBehaviour
             return;
         }
 
+      
+
 
             float dx = reader.GetData(JSBSim.Keys.Velocities.V_FPS);
             float dy = -reader.GetData(JSBSim.Keys.Velocities.W_FPS);
+
+            if(dy < 0 && dy > - 0.05)
+            {
+                dy = 0;
+            }
+
             float dz = reader.GetData(JSBSim.Keys.Velocities.U_FPS);
 
             float angX = -reader.GetData(JSBSim.Keys.Velocities.Q_RAD_SEC) * Mathf.Rad2Deg;
@@ -166,5 +215,9 @@ public class SampleAirplane : MonoBehaviour
             transform.Rotate(new Vector3(angX, angY, angZ) * Time.deltaTime);
     }
 
-  
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(ground.transform.position, ground.transform.position + Vector3.down * height);
+    }
+
 }

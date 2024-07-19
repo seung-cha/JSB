@@ -155,6 +155,8 @@ namespace JSBSim
         /// <param name="csv"></param>
         void DefineHeader(string csv)
         {
+            Debug.Log(csv);
+
             string[] columns = buffer.Split(',');
 
             // First column is always < LABELS >, which is useless.

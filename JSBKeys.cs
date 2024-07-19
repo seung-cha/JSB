@@ -7,7 +7,6 @@ using UnityEngine;
 namespace JSBSim.Keys
 {
     // JSBSim replaces undescore with space.
-
     public static class Simulation
     {
         public static string TIME = "Time";
@@ -17,6 +16,7 @@ namespace JSBSim.Keys
 
 
     }
+
     public static class Velocities
     {
         /// <summary>
@@ -49,6 +49,19 @@ namespace JSBSim.Keys
 
     }
 
+    public static class IC
+    {
+        // explicitly define a new name using caption= tag to avoid duplicate.
+        // e.g <property> ic/h-agl-ft </property> to
+        // <property caption= "ic/h-agl-ft"> ic/h-agl-ft </property>
+
+        public static string HEIGHT_ABOVE_GL_FT = "ic/h-agl-ft";
+
+
+    }
+
+
+
     public static class Propulsion
     {
         public static string R_STARTER_CMD = "starter cmd";
@@ -58,6 +71,24 @@ namespace JSBSim.Keys
         public static string W_MAGNETO_CMD = "propulsion/magneto_cmd";
 
     }
+
+    public static class Position
+    {
+        public static string R_HEIGHT_ABOVE_GL_FT = "h-agl-ft";
+        public static string W_HEIGHT_ABOVE_GL_FT = "position/h-agl-ft";
+
+        public static string R_HEIGHT_ABOVE_GL_KM = "h-agl-km";
+        public static string W_HEIGHT_ABOVE_GL_KM = "position/h-agl-km";
+
+        public static string R_HEIGHT_ABOVE_SL_FT = "h-sl-ft";
+        public static string W_HEIGHT_ABOVE_SL_FT = "position/h-sl-ft";
+
+        public static string R_HEIGHT_ABOVE_SL_MT = "h-sl-meters";
+        public static string W_HEIGHT_ABOVE_SL_MT = "position/h-sl-meters";
+
+
+    }
+
 
     /// <summary>
     /// Flight Control System. Write properties are prefixed with W_ and read with R_.
